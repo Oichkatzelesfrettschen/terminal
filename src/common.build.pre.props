@@ -72,6 +72,10 @@
       <Configuration>Fuzzing</Configuration>
       <Platform>ARM64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="UltraPerformance|x64">
+      <Configuration>UltraPerformance</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
 
   <PropertyGroup Label="Globals">
@@ -265,6 +269,9 @@
       <AdditionalDependencies>libsancov.lib;clang_rt.asan_dynamic-$(OCClangArchitectureName).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+
+  <!-- Import Ultra-Performance build configuration when selected -->
+  <Import Project="$(MSBuildThisFileDirectory)common.build.ultraperformance.props" Condition="'$(Configuration)'=='UltraPerformance'" />
 
   <Import Project="$(MSBuildThisFileDirectory)..\build\rules\Branding.targets" />
 

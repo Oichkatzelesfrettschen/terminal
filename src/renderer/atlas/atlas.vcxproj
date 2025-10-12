@@ -17,6 +17,12 @@
     <ClCompile Include="Backend.cpp" />
     <ClCompile Include="BackendD2D.cpp" />
     <ClCompile Include="BackendD3D.cpp" />
+    <ClCompile Include="BackendD3D12.cpp" />
+    <ClCompile Include="BackendOpenGL.cpp" />
+    <ClCompile Include="telemetry\TelemetryReporter.cpp" />
+    <ClCompile Include="storage\DirectStorageManager.cpp" />
+    <ClCompile Include="telemetry\TelemetryReporter.cpp" />
+    <ClCompile Include="vendors\VendorExtensions.cpp" />
     <ClCompile Include="BuiltinGlyphs.cpp" />
     <ClCompile Include="dwrite.cpp" />
     <ClCompile Include="DWriteTextAnalysis.cpp" />
@@ -31,9 +37,25 @@
     <ClInclude Include="Backend.h" />
     <ClInclude Include="BackendD2D.h" />
     <ClInclude Include="BackendD3D.h" />
+    <ClInclude Include="BackendD3D12.h" />
     <ClInclude Include="BuiltinGlyphs.h" />
     <ClInclude Include="common.h" />
+    <ClInclude Include="d3dx12.h" />
+    <ClInclude Include="d3dx12_barriers.h" />
+    <ClInclude Include="d3dx12_check_feature_support.h" />
+    <ClInclude Include="d3dx12_core.h" />
+    <ClInclude Include="d3dx12_default.h" />
+    <ClInclude Include="d3dx12_pipeline_state_stream.h" />
+    <ClInclude Include="d3dx12_property_format_table.h" />
+    <ClInclude Include="d3dx12_render_pass.h" />
+    <ClInclude Include="d3dx12_resource_helpers.h" />
+    <ClInclude Include="d3dx12_root_signature.h" />
+    <ClInclude Include="d3dx12_state_object.h" />
     <ClInclude Include="dwrite.h" />
+    <ClInclude Include="storage\DirectStorageManager.h" />
+    <ClInclude Include="telemetry\TelemetryReporter.h" />
+    <ClInclude Include="vendors\VendorExtensions.h" />
+    <ClInclude Include="telemetry\TelemetryReporter.h" />
     <ClInclude Include="DWriteTextAnalysis.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="wic.h" />
@@ -57,6 +79,22 @@
     <FxCompile Include="shader_vs.hlsl">
       <ShaderType>Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="shader_d3d12_ps.hlsl">
+      <ShaderType>Pixel</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shader_d3d12_vs.hlsl">
+      <ShaderType>Vertex</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="grid_generate_cs.hlsl">
+      <ShaderType>Compute</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="glyph_rasterize_cs.hlsl">
+      <ShaderType>Compute</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -66,7 +104,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\oss\stb;$(OutDir)$(ProjectName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\oss\stb;$(OutDir)$(ProjectName);$(SolutionDir)build\shaders\$(Configuration);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <FxCompile>
       <ShaderModel>4.0</ShaderModel>
@@ -76,7 +114,22 @@
       <HeaderFileOutput>$(OutDir)$(ProjectName)\%(Filename).h</HeaderFileOutput>
       <TreatWarningAsError>true</TreatWarningAsError>
       <EnableDebuggingInformation>true</EnableDebuggingInformation>
+      <AdditionalIncludeDirectories>$(ProjectDir)shaders\hlsl;$(ProjectDir)shaders\hlsl\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions Condition="'$(Configuration)'=='Release'">/O3 /Zsb /Fd $(OutDir)$(ProjectName)\ /Qstrip_debug /Qstrip_reflect %(AdditionalOptions)</AdditionalOptions>
     </FxCompile>
   </ItemDefinitionGroup>
+  <Target Name="BuildShadersDXC"
+          BeforeTargets="ClCompile"
+          Condition="Exists('$(SolutionDir)tools\Invoke-DXCBuild.ps1')">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(SolutionDir)tools\Invoke-DXCBuild.ps1&quot; -Configuration $(Configuration)"
+          WorkingDirectory="$(SolutionDir)"
+          IgnoreExitCode="false" />
+  </Target>
+  <Target Name="BuildShadersSPIRV"
+          BeforeTargets="ClCompile"
+          Condition="Exists('$(SolutionDir)tools\Invoke-SPIRVBuild.ps1') AND '$(Configuration)'=='UltraPerformance.GL'">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(SolutionDir)tools\Invoke-SPIRVBuild.ps1&quot; -Configuration $(Configuration)"
+          WorkingDirectory="$(SolutionDir)"
+          IgnoreExitCode="false" />
+  </Target>
 </Project>

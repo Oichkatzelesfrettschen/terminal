@@ -47,6 +47,19 @@
                           Style="{StaticResource ToggleSwitchInExpanderStyle}" />
         </local:SettingContainer>
 
+        <!--  DirectStorage Cache Toggle  -->
+        <local:SettingContainer x:Uid="Globals_EnableDirectStorageCache">
+            <ToggleSwitch IsOn="{x:Bind ViewModel.EnableDirectStorageCache, Mode=TwoWay}"
+                          Style="{StaticResource ToggleSwitchInExpanderStyle}" />
+        </local:SettingContainer>
+
+        <!--  Clear DirectStorage Cache  -->
+        <local:SettingContainer x:Uid="Settings_ClearDirectStorageCache">
+            <Button x:Uid="Settings_ClearDirectStorageCacheButton"
+                    Style="{StaticResource DeleteButtonStyle}"
+                    Click="ClearDirectStorageCacheButton_Click" />
+        </local:SettingContainer>
+
         <!--  Reset Application State  -->
         <local:SettingContainer x:Uid="Settings_ResetApplicationState">
             <Button x:Uid="Settings_ResetApplicationStateButton"

@@ -6,6 +6,7 @@
 
 #include "BackendD2D.h"
 #include "BackendD3D.h"
+#include "BackendD3D12.h"
 
 // #### NOTE ####
 // If you see any code in here that contains "_api." you might be seeing a race condition.
@@ -282,6 +283,9 @@ void AtlasEngine::_recreateBackend()
     {
     case GraphicsAPI::Direct2D:
         _b = std::make_unique<BackendD2D>();
+        break;
+    case GraphicsAPI::Direct3D12:
+        _b = std::make_unique<BackendD3D12>(_p);
         break;
     default:
         _b = std::make_unique<BackendD3D>(_p);

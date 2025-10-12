@@ -882,6 +882,8 @@ namespace winrt::Microsoft::Terminal::Control::implementation
         SelectionEndMarker().Fill(cursorColorBrush);
 
         _core.ApplyAppearance(_focused);
+        _EnsureDiagnosticsTimer();
+        _UpdateDiagnosticsHud();
     }
 
     // Method Description:
@@ -1098,6 +1100,84 @@ namespace winrt::Microsoft::Terminal::Control::implementation
         }
 
         BackgroundBrush(RootGrid().Background());
+    }
+
+    void TermControl::_EnsureDiagnosticsTimer()
+    {
+        if (_IsClosing())
+        {
+            return;
+        }
+
+        if (!_diagnosticsTimer)
+        {
+            _diagnosticsTimer.Interval(std::chrono::seconds(1));
+            _diagnosticsTimer.Tick({ get_weak(), &TermControl::_DiagnosticsTimerTick });
+        }
+
+        _diagnosticsTimer.Start();
+        _UpdateDiagnosticsHud();
+    }
+
+    void TermControl::_DiagnosticsTimerTick(const IInspectable&, const IInspectable&)
+    {
+        if (_IsClosing())
+        {
+            return;
+        }
+
+        _UpdateDiagnosticsHud();
+    }
+
+    void TermControl::_UpdateDiagnosticsHud()
+    {
+        if (_IsClosing())
+        {
+            return;
+        }
+
+        const auto status = _core.DirectStorageStatus();
+        const auto vendor = _core.VendorStatus();
+        const auto container = DirectStorageDiagnosticsContainer();
+        const auto textBlock = DirectStorageDiagnosticsText();
+
+        if (!container || !textBlock)
+        {
+            return;
+        }
+
+        std::wstring overlayText;
+        if (!status.empty())
+        {
+            overlayText.assign(L"DirectStorage: ");
+            overlayText.append(status);
+        }
+
+        const bool vendorHasInfo = !vendor.vendor.empty() || vendor.nvapiAvailable || vendor.agsAvailable;
+        if (vendorHasInfo)
+        {
+            if (!overlayText.empty())
+            {
+                overlayText.append(L"\n");
+            }
+
+            overlayText.append(L"Vendor: ");
+            overlayText.append(vendor.vendor.empty() ? L"Unknown" : vendor.vendor);
+            overlayText.append(L"  Reflex: ");
+            overlayText.append(vendor.nvapiAvailable ? (vendor.reflexEnabled ? L"on" : L"off") : L"n/a");
+            overlayText.append(L"  Anti-Lag: ");
+            overlayText.append(vendor.agsAvailable ? (vendor.antiLagEnabled ? L"on" : L"off") : L"n/a");
+        }
+
+        if (overlayText.empty())
+        {
+            container.Visibility(Windows::UI::Xaml::Visibility::Collapsed);
+            textBlock.Text({});
+            return;
+        }
+
+        textBlock.Text(winrt::hstring{ overlayText });
+        container.Visibility(Windows::UI::Xaml::Visibility::Visible);
     }
 
     // Method Description:
@@ -1392,6 +1472,9 @@ namespace winrt::Microsoft::Terminal::Control::implementation
         }
 
         _core.EnablePainting();
+
+        _EnsureDiagnosticsTimer();
+        _UpdateDiagnosticsHud();
 
         auto bufferHeight = _core.BufferHeight();
 
@@ -2726,6 +2809,8 @@ namespace winrt::Microsoft::Terminal::Control::implementation
             _bellLightTimer.Stop();
             _cursorTimer.Stop();
             _blinkTimer.Stop();
+            _diagnosticsTimer.Stop();
+            _diagnosticsTimer.Destroy();
 
             // This is absolutely crucial, as the TSF code tries to hold a strong reference to _tsfDataProvider,
             // but right now _tsfDataProvider implements IUnknown as a no-op. This ensures that TSF stops referencing us.

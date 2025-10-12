@@ -170,6 +170,8 @@ namespace winrt::Microsoft::Terminal::Settings::Editor::implementation
         OBSERVABLE_PROJECTED_SETTING(_profile, AllowVtClipboardWrite);
         OBSERVABLE_PROJECTED_SETTING(_profile, AnswerbackMessage);
         OBSERVABLE_PROJECTED_SETTING(_profile, RainbowSuggestions);
+        OBSERVABLE_PROJECTED_SETTING(_profile, EnableVendorReflex);
+        OBSERVABLE_PROJECTED_SETTING(_profile, EnableVendorAntiLag);
         OBSERVABLE_PROJECTED_SETTING(_profile, PathTranslationStyle);
 
         WINRT_PROPERTY(bool, IsBaseLayer, false);

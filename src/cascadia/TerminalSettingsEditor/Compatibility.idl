@@ -14,9 +14,11 @@ namespace Microsoft.Terminal.Settings.Editor
         Boolean DebugFeaturesAvailable { get; };
         void ResetApplicationState();
         void ResetToDefaultSettings();
+        void ClearDirectStorageCache();
 
         PERMANENT_OBSERVABLE_PROJECTED_SETTING(Boolean, AllowHeadless);
         PERMANENT_OBSERVABLE_PROJECTED_SETTING(Boolean, DebugFeaturesEnabled);
+        PERMANENT_OBSERVABLE_PROJECTED_SETTING(Boolean, EnableDirectStorageCache);
 
         IInspectable CurrentTextMeasurement;
         Windows.Foundation.Collections.IObservableVector<Microsoft.Terminal.Settings.Editor.EnumEntry> TextMeasurementList { get; };

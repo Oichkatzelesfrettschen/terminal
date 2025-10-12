@@ -286,3 +286,6 @@ profiles.json
 
 # MSBuildCache
 /MSBuildCacheLogs/
+
+# Large font archives in research folder
+research/fonts/nerd-fonts/downloads/*.zip

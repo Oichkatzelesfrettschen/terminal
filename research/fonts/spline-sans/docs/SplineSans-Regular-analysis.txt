@@ -1,0 +1,40 @@
+Pattern has 28 elts (size 32)
+	family: "Spline Sans"(s)
+	familylang: "en"(s)
+	style: "Regular"(s)
+	stylelang: "en"(s)
+	fullname: "Spline Sans Regular"(s)
+	fullnamelang: "en"(s)
+	slant: 0(i)(s)
+	weight: 80(f)(s)
+	width: 100(f)(s)
+	foundry: "NONE"(s)
+	file: "sans/ttf/SplineSans-Regular.ttf"(s)
+	index: 0(i)(s)
+	outline: True(s)
+	scalable: True(s)
+	charset: 
+	0000: 00000000 ffffffff ffffffff 7fffffff 00000000 ffffffff ffffffff ffffffff
+	0001: cffffcff fecfffcf cffffdff 7fffffff 00008000 00000000 00000000 fc3000c0
+	0002: 0f000000 008c0000 02000000 00000000 00000000 00000000 3f0000c0 00000000
+	0003: 00041ddf 000221c8 00000000 00000000 00000000 00000000 00000000 00000000
+	001e: 00000000 00000000 00000000 00000000 4000003f 00000000 00003c00 030c0030
+	0020: 77180fff 06008047 80000010 03f10000 000003ff 00001000 00000000 00000000
+	0021: 00000000 00000004 78000000 00000000 00000000 00000000 00000000 00000000
+	0022: 00240000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+	00fb: 00000006 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+(s)
+	lang: aa|ay|az-az|bi|br|bs|ca|ch|co|cs|cy|da|de|en|es|et|eu|fi|fj|fo|fr|fur|fy|gd|gl|gv|ho|hr|hu|ia|ig|id|ie|io|is|it|ki|kw|la|lb|lt|lv|mg|mh|mt|nb|nds|nl|nn|no|nr|nso|ny|oc|om|pl|pt|rm|ro|se|sk|sl|sma|smj|smn|so|sq|ss|st|sv|sw|tk|tl|tn|tr|ts|uz|vo|vot|wa|wen|wo|xh|yap|zu|an|crh|csb|fil|hsb|ht|jv|kj|ku-tr|kwm|lg|li|ms|na|ng|pap-an|pap-aw|rn|rw|sc|sg|sn|su|za|agr|ayc|bem|dsb|lij|mfe|mjw|nhn|niu|sgs|szl|tpi|unm|wae|yuw(s)
+	fontversion: 65602(i)(s)
+	capability: "otlayout:DFLT otlayout:latn"(s)
+	fontformat: "TrueType"(s)
+	decorative: False(s)
+	postscriptname: "SplineSans-Regular"(s)
+	color: False(s)
+	symbol: False(s)
+	variable: False(s)
+	fonthashint: True(s)
+	order: 0(i)(s)
+	namedinstance: False(s)
+	fontwrapper: "SFNT"(s)
+

@@ -4,6 +4,7 @@
 #pragma once
 
 #include <til/generational.h>
+#include <string>
 
 #include "../../renderer/inc/IRenderEngine.hpp"
 
@@ -320,6 +321,7 @@ namespace Microsoft::Console::Render::Atlas
         Automatic,
         Direct2D,
         Direct3D11,
+        Direct3D12,
     };
 
     struct TargetSettings
@@ -399,6 +401,9 @@ namespace Microsoft::Console::Render::Atlas
         std::wstring customPixelShaderPath;
         std::wstring customPixelShaderImagePath;
         bool useRetroTerminalEffect = false;
+        bool enableVendorReflex = false;
+        bool enableVendorAntiLag = false;
+        bool directStorageCacheEnabled = true;
     };
 
     struct Settings
@@ -599,5 +604,9 @@ namespace Microsoft::Console::Render::Atlas
         virtual void ReleaseResources() noexcept = 0;
         virtual void Render(RenderingPayload& payload) = 0;
         virtual bool RequiresContinuousRedraw() noexcept = 0;
+        virtual void SetDirectStorageCacheEnabled(bool) noexcept { }
+        virtual void ClearDirectStorageCache() noexcept { }
+        virtual std::wstring DirectStorageStatus() const { return {}; }
+        virtual VendorDiagnostics GetVendorStatus() const noexcept { return {}; }
     };
 }

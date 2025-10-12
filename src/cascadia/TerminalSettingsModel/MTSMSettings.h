@@ -29,6 +29,7 @@ Author(s):
     X(winrt::Microsoft::Terminal::Control::GraphicsAPI, GraphicsAPI, "rendering.graphicsAPI")                                                                                                         \
     X(bool, DisablePartialInvalidation, "rendering.disablePartialInvalidation", false)                                                                                                                \
     X(bool, SoftwareRendering, "rendering.software", false)                                                                                                                                           \
+    X(bool, EnableDirectStorageCache, "rendering.enableDirectStorageCache", true)                                                                                                                     \
     X(winrt::Microsoft::Terminal::Control::TextMeasurement, TextMeasurement, "compatibility.textMeasurement")                                                                                         \
     X(winrt::Microsoft::Terminal::Control::DefaultInputScope, DefaultInputScope, "defaultInputScope")                                                                                                 \
     X(bool, UseBackgroundImageForWindow, "experimental.useBackgroundImageForWindow", false)                                                                                                           \
@@ -82,6 +83,8 @@ Author(s):
     X(int32_t, HistorySize, "historySize", DEFAULT_HISTORY_SIZE)                                                                                               \
     X(bool, SnapOnInput, "snapOnInput", true)                                                                                                                  \
     X(bool, AltGrAliasing, "altGrAliasing", true)                                                                                                              \
+    X(bool, EnableVendorReflex, "experimental.enableVendorReflex", false)                                                                                    \
+    X(bool, EnableVendorAntiLag, "experimental.enableVendorAntiLag", false)                                                                                  \
     X(hstring, AnswerbackMessage, "answerbackMessage")                                                                                                         \
     X(hstring, Commandline, "commandline", L"%SystemRoot%\\System32\\cmd.exe")                                                                                 \
     X(Microsoft::Terminal::Control::ScrollbarState, ScrollState, "scrollbarState", Microsoft::Terminal::Control::ScrollbarState::Visible)                      \

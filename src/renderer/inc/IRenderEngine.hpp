@@ -14,6 +14,8 @@ Author(s):
 
 #pragma once
 
+#include <string>
+
 #include <d2d1.h>
 
 #include "CursorOptions.h"
@@ -28,6 +30,15 @@ Author(s):
 #pragma warning(disable : 4100) // '...': unreferenced formal parameter
 namespace Microsoft::Console::Render
 {
+    struct VendorDiagnostics
+    {
+        std::wstring vendor;
+        bool nvapiAvailable = false;
+        bool agsAvailable = false;
+        bool reflexEnabled = false;
+        bool antiLagEnabled = false;
+    };
+
     struct RenderFrameInfo
     {
         std::span<const til::point_span> searchHighlights;
@@ -94,6 +105,10 @@ namespace Microsoft::Console::Render
         [[nodiscard]] virtual HRESULT IsGlyphWideByFont(std::wstring_view glyph, _Out_ bool* pResult) noexcept = 0;
         [[nodiscard]] virtual HRESULT UpdateTitle(std::wstring_view newTitle) noexcept = 0;
         virtual void UpdateHyperlinkHoveredId(const uint16_t hoveredId) noexcept = 0;
+        virtual void SetVendorLowLatency(bool enableReflex, bool enableAntiLag) noexcept = 0;
+        virtual void SetDirectStorageCacheEnabled(bool enabled) noexcept = 0;
+        virtual void ClearDirectStorageCache() noexcept = 0;
+        [[nodiscard]] virtual VendorDiagnostics GetVendorStatus() const noexcept { return {}; }
     };
 }
 #pragma warning(pop)

@@ -5,7 +5,7 @@
 
 #include <dwrite_3.h>
 #include <d3d11_2.h>
-#include <dxgi1_3.h>
+#include <dxgi1_6.h>
 
 #include "common.h"
 
@@ -60,6 +60,8 @@ namespace Microsoft::Console::Render::Atlas
 
         // getter
         [[nodiscard]] std::wstring_view GetPixelShaderPath() noexcept;
+        [[nodiscard]] std::wstring GetDirectStorageStatus() const;
+        [[nodiscard]] VendorDiagnostics GetVendorStatus() const;
         [[nodiscard]] bool GetRetroTerminalEffect() const noexcept;
         [[nodiscard]] Types::Viewport GetViewportInCharacters(const Types::Viewport& viewInPixels) const noexcept;
         [[nodiscard]] Types::Viewport GetViewportInPixels(const Types::Viewport& viewInCharacters) const noexcept;
@@ -74,6 +76,9 @@ namespace Microsoft::Console::Render::Atlas
         void SetSoftwareRendering(bool enable) noexcept;
         void SetDisablePartialInvalidation(bool enable) noexcept;
         void SetGraphicsAPI(GraphicsAPI graphicsAPI) noexcept;
+        void SetVendorLowLatency(bool enableReflex, bool enableAntiLag) noexcept;
+        void SetDirectStorageCacheEnabled(bool enable) noexcept override;
+        void ClearDirectStorageCache() noexcept override;
         void SetWarningCallback(std::function<void(HRESULT, wil::zwstring_view)> pfn) noexcept;
         [[nodiscard]] HRESULT SetWindowSize(til::size pixels) noexcept;
         [[nodiscard]] HRESULT UpdateFont(const FontInfoDesired& pfiFontInfoDesired, FontInfo& fiFontInfo, const std::unordered_map<std::wstring_view, float>& features, const std::unordered_map<std::wstring_view, float>& axes) noexcept;

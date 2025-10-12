@@ -315,6 +315,7 @@ namespace winrt::Microsoft::Terminal::Control::implementation
 
         SafeDispatcherTimer _cursorTimer;
         SafeDispatcherTimer _blinkTimer;
+        SafeDispatcherTimer _diagnosticsTimer;
 
         winrt::Windows::UI::Xaml::Controls::SwapChainPanel::LayoutUpdated_revoker _layoutUpdatedRevoker;
         winrt::hstring _restorePath;
@@ -353,6 +354,9 @@ namespace winrt::Microsoft::Terminal::Control::implementation
         void _SetBackgroundImage(const IControlAppearance& newAppearance);
 
         void _InitializeBackgroundBrush();
+        void _EnsureDiagnosticsTimer();
+        void _UpdateDiagnosticsHud();
+        void _DiagnosticsTimerTick(const IInspectable&, const IInspectable&);
         safe_void_coroutine _coreBackgroundColorChanged(const IInspectable& sender, const IInspectable& args);
         void _changeBackgroundColor(til::color bg);
         static bool _isColorLight(til::color bg) noexcept;
