@@ -48,6 +48,8 @@ namespace winrt::Microsoft::Terminal::Control::implementation
             return GA::Direct2D;
         case GraphicsAPI::Direct3D11:
             return GA::Direct3D11;
+        case GraphicsAPI::Direct3D12:
+            return GA::Direct3D12;
         default:
             return GA::Automatic;
         }
@@ -429,6 +431,8 @@ namespace winrt::Microsoft::Terminal::Control::implementation
             });
 
             _renderEngine->SetRetroTerminalEffect(_settings.RetroTerminalEffect());
+            _renderEngine->SetVendorLowLatency(_settings.EnableVendorReflex(), _settings.EnableVendorAntiLag());
+            _renderEngine->SetDirectStorageCacheEnabled(_settings.EnableDirectStorageCache());
             _renderEngine->SetPixelShaderPath(_settings.PixelShaderPath());
             _renderEngine->SetPixelShaderImagePath(_settings.PixelShaderImagePath());
             _renderEngine->SetGraphicsAPI(parseGraphicsAPI(_settings.GraphicsAPI()));
@@ -962,6 +966,8 @@ namespace winrt::Microsoft::Terminal::Control::implementation
         {
             // Update AtlasEngine settings under the lock
             _renderEngine->SetRetroTerminalEffect(newAppearance.RetroTerminalEffect());
+            _renderEngine->SetVendorLowLatency(newAppearance.EnableVendorReflex(), newAppearance.EnableVendorAntiLag());
+            _renderEngine->SetDirectStorageCacheEnabled(_settings.EnableDirectStorageCache());
             _renderEngine->SetPixelShaderPath(newAppearance.PixelShaderPath());
             _renderEngine->SetPixelShaderImagePath(newAppearance.PixelShaderImagePath());
 
@@ -1724,6 +1730,34 @@ namespace winrt::Microsoft::Terminal::Control::implementation
     ::Microsoft::Console::Render::IRenderData* ControlCore::GetRenderData() const
     {
         return _terminal.get();
+    }
+
+    std::wstring ControlCore::DirectStorageStatus() const
+    {
+        if (_renderEngine)
+        {
+            return _renderEngine->GetDirectStorageStatus();
+        }
+
+        return {};
+    }
+
+    ::Microsoft::Console::Render::VendorDiagnostics ControlCore::VendorStatus() const
+    {
+        if (_renderEngine)
+        {
+            return _renderEngine->GetVendorStatus();
+        }
+
+        return {};
+    }
+
+    void ControlCore::ClearDirectStorageCache()
+    {
+        if (_renderEngine)
+        {
+            _renderEngine->ClearDirectStorageCache();
+        }
     }
 
     // Method Description:

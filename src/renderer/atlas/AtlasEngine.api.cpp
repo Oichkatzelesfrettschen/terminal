@@ -337,6 +337,26 @@ CATCH_RETURN()
     return _api.s->misc->customPixelShaderPath;
 }
 
+std::wstring AtlasEngine::GetDirectStorageStatus() const
+{
+    if (!_b)
+    {
+        return {};
+    }
+
+    return _b->DirectStorageStatus();
+}
+
+VendorDiagnostics AtlasEngine::GetVendorStatus() const
+{
+    if (!_b)
+    {
+        return {};
+    }
+
+    return _b->GetVendorStatus();
+}
+
 [[nodiscard]] bool AtlasEngine::GetRetroTerminalEffect() const noexcept
 {
     return _api.s->misc->useRetroTerminalEffect;
@@ -445,6 +465,38 @@ void AtlasEngine::SetGraphicsAPI(GraphicsAPI graphicsAPI) noexcept
     if (_api.s->target->graphicsAPI != graphicsAPI)
     {
         _api.s.write()->target.write()->graphicsAPI = graphicsAPI;
+    }
+}
+
+void AtlasEngine::SetVendorLowLatency(bool enableReflex, bool enableAntiLag) noexcept
+{
+    auto misc = _api.s.write()->misc.write();
+    if (misc->enableVendorReflex != enableReflex || misc->enableVendorAntiLag != enableAntiLag)
+    {
+        misc->enableVendorReflex = enableReflex;
+        misc->enableVendorAntiLag = enableAntiLag;
+    }
+}
+
+void AtlasEngine::SetDirectStorageCacheEnabled(bool enable) noexcept
+{
+    auto misc = _api.s.write()->misc.write();
+    if (misc->directStorageCacheEnabled != enable)
+    {
+        misc->directStorageCacheEnabled = enable;
+    }
+
+    if (_b)
+    {
+        _b->SetDirectStorageCacheEnabled(enable);
+    }
+}
+
+void AtlasEngine::ClearDirectStorageCache() noexcept
+{
+    if (_b)
+    {
+        _b->ClearDirectStorageCache();
     }
 }
 

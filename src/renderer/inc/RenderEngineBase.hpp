@@ -51,6 +51,8 @@ namespace Microsoft::Console::Render
 
         void WaitUntilCanRender() noexcept override;
         void UpdateHyperlinkHoveredId(const uint16_t hoveredId) noexcept override;
+        void SetDirectStorageCacheEnabled(bool) noexcept override {}
+        void ClearDirectStorageCache() noexcept override {}
 
     protected:
         [[nodiscard]] virtual HRESULT _DoUpdateTitle(const std::wstring_view newTitle) noexcept = 0;

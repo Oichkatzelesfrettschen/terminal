@@ -92,6 +92,9 @@ namespace winrt::Microsoft::Terminal::Settings
         SIMPLE_OVERRIDABLE_SETTING(bool, Elevate, false);
         SIMPLE_OVERRIDABLE_SETTING(IEnvironmentVariableMapView, EnvironmentVariables, nullptr);
         SIMPLE_OVERRIDABLE_SETTING(bool, ReloadEnvironmentVariables, true);
+        SIMPLE_OVERRIDABLE_SETTING(bool, EnableVendorReflex, false);
+        SIMPLE_OVERRIDABLE_SETTING(bool, EnableVendorAntiLag, false);
+        SIMPLE_OVERRIDABLE_SETTING(bool, EnableDirectStorageCache, true);
 
     public:
         // TerminalApp overrides these when duplicating a session

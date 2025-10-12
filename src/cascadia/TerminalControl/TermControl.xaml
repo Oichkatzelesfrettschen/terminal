@@ -1270,6 +1270,21 @@
                                 SizeChanged="_SwapChainSizeChanged">
                     <Canvas x:Name="OverlayCanvas"
                             Visibility="Visible">
+                        <Border x:Name="DirectStorageDiagnosticsContainer"
+                                Canvas.Left="12"
+                                Canvas.Top="12"
+                                Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                                CornerRadius="{ThemeResource OverlayCornerRadius}"
+                                Padding="8"
+                                Opacity="0.85"
+                                Visibility="Collapsed"
+                                IsHitTestVisible="False">
+                            <TextBlock x:Name="DirectStorageDiagnosticsText"
+                                       Style="{StaticResource CaptionTextBlockStyle}"
+                                       TextWrapping="WrapWholeWords"
+                                       Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                       AutomationProperties.AccessibilityView="Raw" />
+                        </Border>
                         <Border x:Name="HyperlinkTooltipBorder"
                                 BorderBrush="Transparent">
                             <ToolTipService.ToolTip>

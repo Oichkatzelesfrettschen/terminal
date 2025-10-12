@@ -300,6 +300,8 @@ namespace winrt::Microsoft::Terminal::Settings
         _EnableBuiltinGlyphs = fontInfo.EnableBuiltinGlyphs();
         _EnableColorGlyphs = fontInfo.EnableColorGlyphs();
         _CellWidth = fontInfo.CellWidth();
+        _EnableVendorReflex = profile.EnableVendorReflex();
+        _EnableVendorAntiLag = profile.EnableVendorAntiLag();
         _CellHeight = fontInfo.CellHeight();
         _Padding = profile.Padding();
 
@@ -374,6 +376,7 @@ namespace winrt::Microsoft::Terminal::Settings
         _GraphicsAPI = globalSettings.GraphicsAPI();
         _DisablePartialInvalidation = globalSettings.DisablePartialInvalidation();
         _SoftwareRendering = globalSettings.SoftwareRendering();
+        _EnableDirectStorageCache = globalSettings.EnableDirectStorageCache();
         _TextMeasurement = globalSettings.TextMeasurement();
         _DefaultInputScope = globalSettings.DefaultInputScope();
         _UseBackgroundImageForWindow = globalSettings.UseBackgroundImageForWindow();

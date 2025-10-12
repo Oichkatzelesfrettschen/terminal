@@ -337,6 +337,10 @@
   <data name="Globals_GraphicsAPI_Direct3d11.Text" xml:space="preserve">
     <value>Direct3D 11</value>
   </data>
+  <data name="Globals_GraphicsAPI_Direct3d12.Text" xml:space="preserve">
+    <value>Direct3D 12</value>
+    <comment>Graphics API option for the Direct3D 12 renderer.</comment>
+  </data>
   <data name="Globals_DisablePartialInvalidation.Header" xml:space="preserve">
     <value>Swapchain-Teilinvalidierung deaktivieren</value>
     <comment>"Swap Chain" is an official technical term by Microsoft. This text is shown next to a toggle.</comment>
@@ -1033,6 +1037,22 @@
   <data name="Profile_EnableColorGlyphs.HelpText" xml:space="preserve">
     <value>Wenn diese Option aktiviert ist, werden Emojis in Vollfarbe angezeigt.</value>
     <comment>A longer description of the "Profile_EnableColorGlyphs" toggle.</comment>
+  </data>
+  <data name="Profile_EnableVendorReflex.Header" xml:space="preserve">
+    <value>Enable NVIDIA Reflex</value>
+    <comment>The main label of a toggle that requests NVIDIA Reflex low-latency mode when available.</comment>
+  </data>
+  <data name="Profile_EnableVendorReflex.HelpText" xml:space="preserve">
+    <value>When enabled, the renderer requests NVIDIA Reflex low-latency mode on supported hardware.</value>
+    <comment>A longer description of the "Profile_EnableVendorReflex" toggle.</comment>
+  </data>
+  <data name="Profile_EnableVendorAntiLag.Header" xml:space="preserve">
+    <value>Enable AMD Anti-Lag</value>
+    <comment>The main label of a toggle that requests AMD Anti-Lag low-latency mode when available.</comment>
+  </data>
+  <data name="Profile_EnableVendorAntiLag.HelpText" xml:space="preserve">
+    <value>When enabled, the renderer requests AMD Anti-Lag low-latency mode on supported hardware.</value>
+    <comment>A longer description of the "Profile_EnableVendorAntiLag" toggle.</comment>
   </data>
   <data name="Profile_FontWeightComboBox.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Schriftstärke</value>
@@ -2526,6 +2546,14 @@
     <value>Nützlich für die Problembehandlung oder Entwicklung eines Terminals.</value>
     <comment>Additional description for what the "debug features enabled" setting does. Presented near "Globals_DebugFeaturesEnabled.Header".</comment>
   </data>
+  <data name="Globals_EnableDirectStorageCache.Header" xml:space="preserve">
+    <value>Cache DirectStorage remote assets</value>
+    <comment>Label for the toggle that enables caching remote files for DirectStorage.</comment>
+  </data>
+  <data name="Globals_EnableDirectStorageCache.HelpText" xml:space="preserve">
+    <value>When enabled, remote glyph and asset files are staged locally for DirectStorage throughput.</value>
+    <comment>Help text for the DirectStorage cache toggle.</comment>
+  </data>
   <data name="Profile_RainbowSuggestions.Header" xml:space="preserve">
     <value>Experimentell: Eingabevorschläge in Regenbogenfarben anzeigen</value>
     <comment>This is a label for a setting that, when enabled, applies a rainbow coloring to the preview text from the suggestions UI.</comment>
@@ -2667,7 +2695,19 @@
   <data name="Settings_ResetToDefaultSettings.Header" xml:space="preserve">
     <value>Auf Standardeinstellungen zurücksetzen</value>
   </data>
-  <data name="Settings_ResetApplicationState.Header" xml:space="preserve">
+  <data name="Settings_ClearDirectStorageCache.Header" xml:space="preserve">
+    <value>Clear DirectStorage cache</value>
+    <comment>Header for the button that clears the DirectStorage cache.</comment>
+  </data>
+  <data name="Settings_ClearDirectStorageCache.HelpText" xml:space="preserve">
+    <value>Removes cached DirectStorage assets from the local staging folder.</value>
+    <comment>Help text for the DirectStorage cache clearing button.</comment>
+  </data>
+  <data name="Settings_ClearDirectStorageCacheButton.Content" xml:space="preserve">
+    <value>Clear cache</value>
+    <comment>Button text to clear the DirectStorage cache.</comment>
+  </data>
+<data name="Settings_ResetApplicationState.Header" xml:space="preserve">
     <value>Cache löschen</value>
   </data>
   <data name="Settings_ResetApplicationState.HelpText" xml:space="preserve">

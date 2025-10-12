@@ -19,6 +19,8 @@
 #include "SelectionColor.g.h"
 #include "CommandHistoryContext.g.h"
 
+#include <string>
+
 #include "../../audio/midi/MidiAudio.hpp"
 #include "../../buffer/out/search.h"
 #include "../../cascadia/TerminalCore/Terminal.hpp"
@@ -149,6 +151,9 @@ namespace winrt::Microsoft::Terminal::Control::implementation
         Windows::Foundation::IReference<Core::Point> HoveredCell() const;
 
         ::Microsoft::Console::Render::IRenderData* GetRenderData() const;
+        std::wstring DirectStorageStatus() const;
+        ::Microsoft::Console::Render::VendorDiagnostics VendorStatus() const;
+        void ClearDirectStorageCache();
 
         void ColorSelection(const Control::SelectionColor& fg, const Control::SelectionColor& bg, Core::MatchMode matchMode);
 

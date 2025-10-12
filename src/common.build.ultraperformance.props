@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+  ============================================================================
+  ULTRA-PERFORMANCE BUILD CONFIGURATION
+  ============================================================================
+
+  This configuration file applies aggressive performance optimizations beyond
+  the default Release build, including:
+
+  - AVX2/SIMD vectorization
+  - Aggressive inlining
+  - Link-time code generation
+  - Profile-guided optimization hooks
+  - Whole program optimization
+  - Memory alignment optimizations
+
+  WARNING: Requires AVX2-capable CPU (Intel Haswell 2013+ / AMD Excavator 2015+)
+  ============================================================================
+  -->
+
+  <PropertyGroup Label="Configuration">
+    <ConfigurationName>UltraPerformance</ConfigurationName>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <!-- Core Optimization Settings -->
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+
+      <!-- SIMD/AVX2 Vectorization -->
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+
+      <!-- Aggressive Optimization Flags -->
+      <AdditionalOptions>/Ob3 /Gw /Gy /Oi /Ot /GT /GL %(AdditionalOptions)</AdditionalOptions>
+      <!--
+        /Ob3  - Aggressive inlining (VS 2019+)
+        /Gw   - Optimize global data
+        /Gy   - Enable function-level linking
+        /Oi   - Generate intrinsic functions
+        /Ot   - Favor fast code over small code
+        /GT   - Fiber-safe TLS access
+        /GL   - Whole program optimization (link-time code generation)
+      -->
+
+      <!-- Runtime Library -->
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+
+      <!-- Buffer Security Checks -->
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <!-- NOTE: Disabling for maximum performance. Re-enable if security is critical. -->
+
+      <!-- Floating Point Model -->
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <!-- Fast allows optimizations that may reduce precision but increase speed -->
+
+      <!-- Function Linking -->
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <StringPooling>true</StringPooling>
+
+      <!-- Remove Unreferenced Code/Data -->
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+
+      <!-- Preprocessor -->
+      <PreprocessorDefinitions>NDEBUG;_NDEBUG;ULTRA_PERFORMANCE_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+
+      <!-- Debug Info (minimal for performance profiling) -->
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+
+      <!-- Control Flow Guard (can be disabled for more performance) -->
+      <ControlFlowGuard>false</ControlFlowGuard>
+      <!-- NOTE: CFG adds overhead. Disable for maximum speed, enable for security. -->
+
+      <!-- Parallel Compilation -->
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+
+      <!-- SDL Checks (disabled for performance) -->
+      <SDLCheck>false</SDLCheck>
+
+      <!-- Exception Handling -->
+      <ExceptionHandling>Sync</ExceptionHandling>
+
+      <!-- Calling Convention (fastcall for x64) -->
+      <CallingConvention Condition="'$(Platform)'=='x64'">fastcall</CallingConvention>
+
+      <!-- Conformance -->
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+
+      <!-- Warnings -->
+      <WarningLevel>Level3</WarningLevel>
+      <!-- Reduced from Level4 to avoid optimization-breaking warnings -->
+    </ClCompile>
+
+    <Link>
+      <!-- Link-Time Code Generation -->
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+
+      <!-- Optimization -->
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+
+      <!-- Link Profile Guided Optimization -->
+      <LinkTimeCodeGeneration Condition="'$(PGOBuildMode)'=='Optimize'">PGOptimization</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration Condition="'$(PGOBuildMode)'=='Instrument'">PGInstrument</LinkTimeCodeGeneration>
+
+      <!-- Advanced Options -->
+      <AdditionalOptions>/OPT:ICF=5 /OPT:REF /LTCG:incremental %(AdditionalOptions)</AdditionalOptions>
+      <!--
+        /OPT:ICF=5  - Aggressive identical COMDAT folding (5 iterations)
+        /OPT:REF    - Eliminate unreferenced functions/data
+        /LTCG:incremental - Incremental link-time code generation
+      -->
+
+      <!-- Subsystem Optimization -->
+      <OptimizeForWindows98>false</OptimizeForWindows98>
+
+      <!-- Generate Debug Info -->
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+
+      <!-- Large Address Aware -->
+      <LargeAddressAware>true</LargeAddressAware>
+
+      <!-- Set Checksum -->
+      <SetChecksum>true</SetChecksum>
+
+      <!-- Data Execution Prevention -->
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+
+      <!-- Randomized Base Address (ASLR) -->
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+
+      <!-- Fixed Base Address -->
+      <FixedBaseAddress>false</FixedBaseAddress>
+
+      <!-- Profile -->
+      <Profile>false</Profile>
+    </Link>
+
+    <Lib>
+      <!-- For static libraries -->
+      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
+    </Lib>
+  </ItemDefinitionGroup>
+
+  <!--
+  ============================================================================
+  PERFORMANCE NOTES
+  ============================================================================
+
+  AVX2 Instructions:
+  - Enables 256-bit SIMD operations
+  - 2x throughput vs SSE/AVX for integer operations
+  - Requires Intel Haswell (2013+) or AMD Excavator (2015+)
+  - Will crash on older CPUs!
+
+  Whole Program Optimization (/GL + /LTCG):
+  - Analyzes entire program during linking
+  - Enables cross-module inlining
+  - Significantly longer build times
+  - 10-30% performance improvement typical
+
+  Profile-Guided Optimization (PGO):
+  - First build: Set PGOBuildMode=Instrument
+  - Run typical workload to generate .pgc files
+  - Second build: Set PGOBuildMode=Optimize
+  - Can provide 5-20% additional speedup
+
+  Security vs Performance Trade-offs:
+  - BufferSecurityCheck=false: +2-5% speed, removes bounds checking
+  - ControlFlowGuard=false: +1-3% speed, removes CFG checks
+  - SDLCheck=false: +1-2% speed, removes SDL security checks
+
+  RECOMMENDATION: For production builds, consider re-enabling security features
+  ============================================================================
+  -->
+</Project>

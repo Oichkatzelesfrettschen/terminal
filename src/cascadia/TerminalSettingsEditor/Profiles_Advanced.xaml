@@ -66,6 +66,24 @@
                               Style="{StaticResource ToggleSwitchInExpanderStyle}" />
             </local:SettingContainer>
 
+            <!--  Vendor Reflex  -->
+            <local:SettingContainer x:Uid="Profile_EnableVendorReflex"
+                                    ClearSettingValue="{x:Bind Profile.ClearEnableVendorReflex}"
+                                    HasSettingValue="{x:Bind Profile.HasEnableVendorReflex, Mode=OneWay}"
+                                    SettingOverrideSource="{x:Bind Profile.EnableVendorReflexOverrideSource, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind Profile.EnableVendorReflex, Mode=TwoWay}"
+                              Style="{StaticResource ToggleSwitchInExpanderStyle}" />
+            </local:SettingContainer>
+
+            <!--  Vendor Anti-Lag  -->
+            <local:SettingContainer x:Uid="Profile_EnableVendorAntiLag"
+                                    ClearSettingValue="{x:Bind Profile.ClearEnableVendorAntiLag}"
+                                    HasSettingValue="{x:Bind Profile.HasEnableVendorAntiLag, Mode=OneWay}"
+                                    SettingOverrideSource="{x:Bind Profile.EnableVendorAntiLagOverrideSource, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind Profile.EnableVendorAntiLag, Mode=TwoWay}"
+                              Style="{StaticResource ToggleSwitchInExpanderStyle}" />
+            </local:SettingContainer>
+
             <!--  History Size  -->
             <local:SettingContainer x:Uid="Profile_HistorySize"
                                     ClearSettingValue="{x:Bind Profile.ClearHistorySize}"

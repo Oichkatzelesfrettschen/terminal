@@ -17,6 +17,7 @@ namespace Microsoft.Terminal.Control
         Automatic,
         Direct2D,
         Direct3D11,
+        Direct3D12,
     };
 
     enum TextMeasurement

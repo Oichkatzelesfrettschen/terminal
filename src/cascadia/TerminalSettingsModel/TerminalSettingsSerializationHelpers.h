@@ -811,10 +811,11 @@ struct ::Microsoft::Terminal::Settings::Model::JsonUtils::ConversionTrait<::winr
 
 JSON_ENUM_MAPPER(::winrt::Microsoft::Terminal::Control::GraphicsAPI)
 {
-    JSON_MAPPINGS(3) = {
+    JSON_MAPPINGS(4) = {
         pair_type{ "automatic", ValueType::Automatic },
         pair_type{ "direct2d", ValueType::Direct2D },
         pair_type{ "direct3d11", ValueType::Direct3D11 },
+        pair_type{ "direct3d12", ValueType::Direct3D12 },
     };
 };
 
