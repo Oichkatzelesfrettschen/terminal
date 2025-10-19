@@ -90,5 +90,11 @@
   </ItemDefinitionGroup>
 
   <!-- Careful reordering these. Some default props (contained in these files) are order sensitive. -->
+  <PropertyGroup Condition="'$(Configuration)'=='UltraPerformance'"
+>    <Import Project="$(SolutionDir)src\common.build.ultraperformance.props" />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='UltraPerformance'
+>    <Import Project="$(SolutionDir)src\common.build.ultraperformance.props" />
+  </PropertyGroup>
   <Import Project="$(SolutionDir)src\common.build.post.props" />
 </Project>

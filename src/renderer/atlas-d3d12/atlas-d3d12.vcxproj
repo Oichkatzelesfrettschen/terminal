@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{45209C5A-D0F2-4AF8-AA3D-26B1ADDE2A44}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>atlas-d3d12</RootNamespace>
+    <ProjectName>RendererAtlasD3D12</ProjectName>
+    <TargetName>ConRenderAtlasD3D12</TargetName>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)src\common.build.pre.props" />
+  <Import Project="$(SolutionDir)src\common.nugetversions.props" />
+  <ItemGroup>
+    <ClCompile Include="AtlasEngineD3D12.cpp" />
+    <ClCompile Include="DWriteTextAnalysis.cpp" />
+    <ClCompile Include="..\pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AtlasEngineD3D12.h" />
+    <ClInclude Include="DWriteTextAnalysis.h" />
+    <ClInclude Include="..\pch.h" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='UltraPerformance'">
+    <Import Project="$(SolutionDir)src\common.build.ultraperformance.props" />
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)src\common.build.post.props" />
+  <Import Project="$(SolutionDir)src\common.nugetversions.targets" />
+</Project>

@@ -28,9 +28,13 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\utils.cpp" />
+    <ClCompile Include="..\CpuFeatures.cpp" />
+    <ClCompile Include="..\simd.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\IControlAccessibilityInfo.h" />
+    <ClInclude Include="..\CpuFeatures.h" />
+    <ClInclude Include="..\simd.h" />
     <ClInclude Include="..\inc\CodepointWidthDetector.hpp" />
     <ClInclude Include="..\inc\ColorFix.hpp" />
     <ClInclude Include="..\inc\convert.hpp" />
@@ -53,4 +57,7 @@
   <!-- Careful reordering these. Some default props (contained in these files) are order sensitive. -->
   <Import Project="$(SolutionDir)src\common.build.post.props" />
   <Import Project="$(SolutionDir)src\common.nugetversions.targets" />
+  <PropertyGroup Condition="'$(Configuration)'=='UltraPerformance'">
+    <Import Project="$(SolutionDir)src\common.build.ultraperformance.props" />
+  </PropertyGroup>
 </Project>

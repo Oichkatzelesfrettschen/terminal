@@ -1,384 +1,146 @@
+# Welcome to the Ultra-Riced Windows Terminal
+
 ![terminal-logos](https://github.com/microsoft/terminal/assets/91625426/333ddc76-8ab2-4eb4-a8c0-4d7b953b1179)
 
-[![Terminal Build Status](https://dev.azure.com/shine-oss/terminal/_apis/build/status%2FTerminal%20CI?branchName=main)](https://dev.azure.com/shine-oss/terminal/_build/latest?definitionId=1&branchName=main)
-
-# Welcome to the Windows Terminal, Console and Command-Line repo
-
-<details>
-  <summary><strong>Table of Contents</strong></summary>
-
-- [Installing and running Windows Terminal](#installing-and-running-windows-terminal)
-  - [Microsoft Store \[Recommended\]](#microsoft-store-recommended)
-  - [Other install methods](#other-install-methods)
-    - [Via GitHub](#via-github)
-    - [Via Windows Package Manager CLI (aka winget)](#via-windows-package-manager-cli-aka-winget)
-    - [Via Chocolatey (unofficial)](#via-chocolatey-unofficial)
-    - [Via Scoop (unofficial)](#via-scoop-unofficial)
-- [Installing Windows Terminal Canary](#installing-windows-terminal-canary)
-- [Windows Terminal Roadmap](#windows-terminal-roadmap)
-- [Terminal \& Console Overview](#terminal--console-overview)
-  - [Windows Terminal](#windows-terminal)
-  - [The Windows Console Host](#the-windows-console-host)
-  - [Shared Components](#shared-components)
-  - [Creating the new Windows Terminal](#creating-the-new-windows-terminal)
-- [Resources](#resources)
-- [FAQ](#faq)
-  - [I built and ran the new Terminal, but it looks just like the old console](#i-built-and-ran-the-new-terminal-but-it-looks-just-like-the-old-console)
-- [Documentation](#documentation)
-- [Contributing](#contributing)
-- [Communicating with the Team](#communicating-with-the-team)
-- [Developer Guidance](#developer-guidance)
-- [Prerequisites](#prerequisites)
-- [Building the Code](#building-the-code)
-  - [Building in PowerShell](#building-in-powershell)
-  - [Building in Cmd](#building-in-cmd)
-- [Running \& Debugging](#running--debugging)
-  - [Coding Guidance](#coding-guidance)
-- [Code of Conduct](#code-of-conduct)
-
-</details>
-
-<br />
-
-This repository contains the source code for:
-
-* [Windows Terminal](https://aka.ms/terminal)
-* [Windows Terminal Preview](https://aka.ms/terminal-preview)
-* The Windows console host (`conhost.exe`)
-* Components shared between the two projects
-* [ColorTool](./src/tools/ColorTool)
-* [Sample projects](./samples)
-  that show how to consume the Windows Console APIs
-
-Related repositories include:
-
-* [Windows Terminal Documentation](https://docs.microsoft.com/windows/terminal)
-  ([Repo: Contribute to the docs](https://github.com/MicrosoftDocs/terminal))
-* [Console API Documentation](https://github.com/MicrosoftDocs/Console-Docs)
-* [Cascadia Code Font](https://github.com/Microsoft/Cascadia-Code)
+This repository is a fork of the official Microsoft Windows Terminal, with a focus on high performance and aesthetic customization. The project's vision is to create a "riced" version of the terminal with a new DirectX 12 renderer, SIMD optimizations, an OpenGL fallback, and a curated set of themes and fonts.
 
-## Installing and running Windows Terminal
-
-> [!NOTE]
-> Windows Terminal requires Windows 10 2004 (build 19041) or later
+## Current Status
 
-### Microsoft Store [Recommended]
+**This project is currently in a pre-alpha state and is not yet ready for general use.**
 
-Install the [Windows Terminal from the Microsoft Store][store-install-link].
-This allows you to always be on the latest version when we release new builds
-with automatic upgrades.
+While a significant amount of planning and architectural design has been completed, the implementation is still in its early stages. The D3D12 backend, which is the core of the performance improvements, is **not yet functional** and cannot render text.
 
-This is our preferred method.
+**Key Issues:**
 
-### Other install methods
+*   **D3D12 backend is incomplete:** The D3D12 backend is missing critical features, including text rendering, glyph atlas management, and cursor rendering.
+*   **Compilation Blockers:** There are several compilation blockers that prevent the D3D12 backend from being built.
+*   **Feature Gaps:** There is a significant gap between the features of the D3D11 backend and the D3D12 backend.
 
-#### Via GitHub
+A detailed breakdown of the current status can be found in the [Comprehensive Audit Summary](COMPREHENSIVE_AUDIT_SUMMARY.md).
 
-For users who are unable to install Windows Terminal from the Microsoft Store,
-released builds can be manually downloaded from this repository's [Releases
-page](https://github.com/microsoft/terminal/releases).
+## The Vision
 
-Download the `Microsoft.WindowsTerminal_<versionNumber>.msixbundle` file from
-the **Assets** section. To install the app, you can simply double-click on the
-`.msixbundle` file, and the app installer should automatically run. If that
-fails for any reason, you can try the following command at a PowerShell prompt:
+The vision for this project is to create the ultimate "riced" Windows Terminal, with a focus on three key areas:
 
-```powershell
-# NOTE: If you are using PowerShell 7+, please run
-# Import-Module Appx -UseWindowsPowerShell
-# before using Add-AppxPackage.
+1.  **Maximum Performance:** Achieve 5-10x rendering performance improvement over the stock Windows Terminal by leveraging a modern D3D12 rendering engine, Alacritty-inspired rendering techniques, and x86-64-v3 SIMD optimizations.
+2.  **Beautiful Aesthetics:** Provide a curated set of 11 beautiful themes, including popular choices like Catppuccin, Dracula, and Nord, as well as modern font support with Spline Sans Mono and Nerd Fonts integration.
+3.  **Modern Features:** Implement a host of modern features, including a cross-platform OpenGL 3.3+ fallback renderer, and a production-ready, fully implemented feature set with zero placeholders.
 
-Add-AppxPackage Microsoft.WindowsTerminal_<versionNumber>.msixbundle
-```
+The complete vision for the project is detailed in the [Ultra-Riced Windows Terminal Master Plan](ULTRA_RICED_TERMINAL_MASTER_PLAN.md).
 
-> [!NOTE]
-> If you install Terminal manually:
->
-> * You may need to install the [VC++ v14 Desktop Framework Package](https://docs.microsoft.com/troubleshoot/cpp/c-runtime-packages-desktop-bridge#how-to-install-and-update-desktop-framework-packages).
->   This should only be necessary on older builds of Windows 10 and only if you get an error about missing framework packages.
-> * Terminal will not auto-update when new builds are released so you will need
->   to regularly install the latest Terminal release to receive all the latest
->   fixes and improvements!
+## The Journey So Far (A Tale of Agents)
 
-#### Via Windows Package Manager CLI (aka winget)
+This project has been a collaborative effort between human developers and several AI agents, including Claude and Gemini. Each agent has contributed to different aspects of the project, from research and planning to implementation.
 
-[winget](https://github.com/microsoft/winget-cli) users can download and install
-the latest Terminal release by installing the `Microsoft.WindowsTerminal`
-package:
+This multi-agent approach has been a great learning experience, but it has also led to some challenges. The initial phases of the project were characterized by a flurry of activity, with different agents working on different parts of the codebase in parallel. This resulted in a large number of design documents and roadmaps, but also a lack of a single, unified vision.
 
-```powershell
-winget install --id Microsoft.WindowsTerminal -e
-```
+The key lesson learned from this experience is the importance of having a single, coherent plan and a clear "source of truth" for the project. This unified `README.md` is an attempt to rectify this and provide a single, clear vision for the future of the project.
 
-> [!NOTE]
-> Dependency support is available in WinGet version [1.6.2631 or later](https://github.com/microsoft/winget-cli/releases). To install the Terminal stable release 1.18 or later, please make sure you have the updated version of the WinGet client.
+## Project Refactoring: A Pure Windows 11 Future
 
-#### Via Chocolatey (unofficial)
+After a thorough audit of the project's goals and the current state of the Windows development ecosystem, the decision has been made to refactor the project into a **pure Windows 11 25H2 native application**. This represents a shift away from the original cross-platform ambitions and a deep embrace of the modern Windows development stack.
 
-[Chocolatey](https://chocolatey.org) users can download and install the latest
-Terminal release by installing the `microsoft-windows-terminal` package:
+### Rationale
 
-```powershell
-choco install microsoft-windows-terminal
-```
+The primary motivation for this change is to leverage the full power of the Windows platform and deliver a truly next-generation terminal experience. By focusing on a single platform, we can take advantage of the latest Windows technologies, including DirectX 12 Ultimate, DirectML, and DirectStorage, without the compromises required by a cross-platform approach.
 
-To upgrade Windows Terminal using Chocolatey, run the following:
+### Core Technologies
 
-```powershell
-choco upgrade microsoft-windows-terminal
-```
+The refactored project will be built on the following core technologies:
 
-If you have any issues when installing/upgrading the package please go to the
-[Windows Terminal package
-page](https://chocolatey.org/packages/microsoft-windows-terminal) and follow the
-[Chocolatey triage process](https://chocolatey.org/docs/package-triage-process)
+*   **UI Framework:** WinUI 3 with the Windows App SDK 1.6. This will provide a modern, Fluent Design-based UI that is decoupled from the OS, allowing for faster updates and more flexible deployment.
+*   **Graphics API:** DirectX 12 Ultimate. This will be the sole graphics API, allowing for the implementation of cutting-edge rendering features.
+*   **Machine Learning:** Windows ML (powered by DirectML). This will be used for any future AI-powered features.
+*   **Storage:** DirectStorage. This will be used to accelerate the loading of assets like fonts, themes, and shaders.
 
-#### Via Scoop (unofficial)
+### Key DirectX 12 Ultimate Features to Leverage
 
-[Scoop](https://scoop.sh) users can download and install the latest Terminal
-release by installing the `windows-terminal` package:
+*   **DirectX Raytracing (DXR):** While not a primary feature for a terminal, DXR can be used for advanced visual effects like acrylic and mica materials, and other transparency and reflection effects.
+*   **Variable Rate Shading (VRS):** This will be a key performance optimization, allowing the renderer to focus shading on the text glyphs themselves, while using a lower shading rate for the background and other less important areas.
+*   **Mesh Shaders:** The mesh shader pipeline can be used to create a highly efficient text rendering engine, where each glyph is processed as a small meshlet.
+*   **Sampler Feedback:** This can be used to optimize the glyph atlas, only loading the glyphs that are actually needed for the current view.
 
-```powershell
-scoop bucket add extras
-scoop install windows-terminal
-```
+### Build Environment
 
-To update Windows Terminal using Scoop, run the following:
+*   **Visual Studio:** Visual Studio 2022 (latest version as of October 2025).
+*   **Windows SDK:** 10.0.26100 or later.
+*   **C++ Standard:** C++20. While C++23 is available in preview, C++20 will be used for its stability and full feature support.
+*   **HLSL:** HLSL 2021 (Shader Model 6.8). Shaders will be compiled using the DirectX Shader Compiler (DXC) included with the Windows SDK, as Visual Studio's built-in compiler may not support the latest shader models.
 
-```powershell
-scoop update windows-terminal
-```
+### Removed Technologies
 
-If you have any issues when installing/updating the package, please search for
-or report the same on the [issues
-page](https://github.com/lukesampson/scoop-extras/issues) of Scoop Extras bucket
-repository.
+The following technologies will be removed from the project:
 
----
+*   OpenGL
+*   SPIR-V
+*   Any other cross-platform libraries or frameworks
 
-## Installing Windows Terminal Canary
-Windows Terminal Canary is a nightly build of Windows Terminal. This build has the latest code from our `main` branch, giving you an opportunity to try features before they make it to Windows Terminal Preview.
+## The Path Forward (Unified Roadmap)
 
-Windows Terminal Canary is our least stable offering, so you may discover bugs before we have had a chance to find them.
+The following is a unified roadmap that synthesizes the various roadmaps and plans that have been created for the project. It prioritizes the critical path to a functional and feature-complete terminal.
 
-Windows Terminal Canary is available as an App Installer distribution and a Portable ZIP distribution.
+**Phase 0: Critical Fixes (IMMEDIATE)**
 
-The App Installer distribution supports automatic updates. Due to platform limitations, this installer only works on Windows 11.
+The immediate priority is to fix the compilation blockers in the D3D12 backend and get it to a state where it can render a basic scene. This is a prerequisite for any further development.
 
-The Portable ZIP distribution is a portable application. It will not automatically update and will not automatically check for updates. This portable ZIP distribution works on Windows 10 (19041+) and Windows 11.
+**Phase 1: Core Text Rendering (2-3 weeks)**
 
-| Distribution  | Architecture    | Link                                                 |
-|---------------|:---------------:|------------------------------------------------------|
-| App Installer | x64, arm64, x86 | [download](https://aka.ms/terminal-canary-installer) |
-| Portable ZIP  | x64             | [download](https://aka.ms/terminal-canary-zip-x64)   |
-| Portable ZIP  | ARM64           | [download](https://aka.ms/terminal-canary-zip-arm64) |
-| Portable ZIP  | x86             | [download](https://aka.ms/terminal-canary-zip-x86)   |
+The next step is to implement the core text rendering functionality in the D3D12 backend. This includes:
 
-_Learn more about the [types of Windows Terminal distributions](https://learn.microsoft.com/windows/terminal/distributions)._
+*   Glyph atlas system
+*   DirectWrite/Direct2D integration
+*   Text rendering pipeline
+*   Background system
 
----
+**Phase 2: Terminal Features (1-2 weeks)**
 
-## Windows Terminal Roadmap
+Once the core text rendering is in place, the next step is to implement the remaining terminal features, including:
 
-The plan for the Windows Terminal [is described here](/doc/roadmap-2023.md) and
-will be updated as the project proceeds.
+*   Cursor system
+*   Underlines and decorations
+*   Custom shaders
 
-## Terminal & Console Overview
+**Phase 3: Modern D3D12 Features (1-2 weeks)**
 
-Please take a few minutes to review the overview below before diving into the
-code:
+With a feature-complete D3D12 backend, the focus will shift to implementing modern D3D12 features to maximize performance. This includes:
 
-### Windows Terminal
+*   Ring buffer upload heaps
+*   Enhanced Barriers
+*   PIX + DRED
+*   ExecuteIndirect
+*   Variable Rate Shading
 
-Windows Terminal is a new, modern, feature-rich, productive terminal application
-for command-line users. It includes many of the features most frequently
-requested by the Windows command-line community including support for tabs, rich
-text, globalization, configurability, theming & styling, and more.
+**Phase 4: WinUI 3 Integration (3-4 weeks)**
 
-The Terminal will also need to meet our goals and measures to ensure it remains
-fast and efficient, and doesn't consume vast amounts of memory or power.
+The final phase of the project will be to integrate the D3D12 renderer with a new WinUI 3-based application, replacing the existing XAML-based UI.
 
-### The Windows Console Host
+A more detailed breakdown of the roadmap can be found in the [Master Implementation Roadmap](MASTER_IMPLEMENTATION_ROADMAP.md).
 
-The Windows Console host, `conhost.exe`, is Windows' original command-line user
-experience. It also hosts Windows' command-line infrastructure and the Windows
-Console API server, input engine, rendering engine, user preferences, etc. The
-console host code in this repository is the actual source from which the
-`conhost.exe` in Windows itself is built.
+## Key Architectural Decisions
 
-Since taking ownership of the Windows command-line in 2014, the team added
-several new features to the Console, including background transparency,
-line-based selection, support for [ANSI / Virtual Terminal
-sequences](https://en.wikipedia.org/wiki/ANSI_escape_code), [24-bit
-color](https://devblogs.microsoft.com/commandline/24-bit-color-in-the-windows-console/),
-a [Pseudoconsole
-("ConPTY")](https://devblogs.microsoft.com/commandline/windows-command-line-introducing-the-windows-pseudo-console-conpty/),
-and more.
+With the project's refactoring to a pure Windows 11 native application, the following key architectural decisions have been made:
 
-However, because Windows Console's primary goal is to maintain backward
-compatibility, we have been unable to add many of the features the community
-(and the team) have been wanting for the last several years including tabs,
-unicode text, and emoji.
+*   **DirectX 12 Ultimate as the Sole Graphics API:** The project will exclusively use DirectX 12 Ultimate, enabling the use of advanced features like Raytracing, Variable Rate Shading, Mesh Shaders, and Sampler Feedback to create a high-performance, visually rich terminal experience.
+*   **WinUI 3 for the UI Framework:** The user interface will be built using WinUI 3 and the Windows App SDK, ensuring a modern, Fluent Design-based aesthetic and a clean separation between the UI and the core rendering engine.
+*   **DirectStorage for Asset Loading:** All assets, including fonts, themes, and shaders, will be loaded using the DirectStorage API, providing near-instantaneous loading times and reducing CPU overhead.
+*   **HLSL Shader Model 6.0+:** Shaders will be written in the latest version of HLSL, taking full advantage of the features of DirectX 12 Ultimate and the latest GPU hardware.
+*   **C++20 as the Core Language:** The project will be built using C++20, leveraging modern language features like modules, coroutines, and concepts to create a more robust, maintainable, and performant codebase.
 
-These limitations led us to create the new Windows Terminal.
+## Building and Running
 
-> You can read more about the evolution of the command-line in general, and the
-> Windows command-line specifically in [this accompanying series of blog
-> posts](https://devblogs.microsoft.com/commandline/windows-command-line-backgrounder/)
-> on the Command-Line team's blog.
+**Prerequisites:**
 
-### Shared Components
+*   Windows 11 25H2 (build >= 10.0.26100.0) or later
+*   Developer Mode enabled in Windows Settings
+*   PowerShell 7 or later
+*   Windows SDK (10.0.26100.0) or later
+*   Visual Studio 2022 (latest version) with the following workloads:
+    *   Desktop Development with C++
+    *   Universal Windows Platform Development
+    *   C++ (v143) Universal Windows Platform Tools
+*   Windows App SDK 1.6 or later
 
-While overhauling Windows Console, we modernized its codebase considerably,
-cleanly separating logical entities into modules and classes, introduced some
-key extensibility points, replaced several old, home-grown collections and
-containers with safer, more efficient [STL
-containers](https://docs.microsoft.com/en-us/cpp/standard-library/stl-containers?view=vs-2022),
-and made the code simpler and safer by using Microsoft's [Windows Implementation
-Libraries - WIL](https://github.com/Microsoft/wil).
-
-This overhaul resulted in several of Console's key components being available
-for re-use in any terminal implementation on Windows. These components include a
-new DirectWrite-based text layout and rendering engine, a text buffer capable of
-storing both UTF-16 and UTF-8, a VT parser/emitter, and more.
-
-### Creating the new Windows Terminal
-
-When we started planning the new Windows Terminal application, we explored and
-evaluated several approaches and technology stacks. We ultimately decided that
-our goals would be best met by continuing our investment in our C++ codebase,
-which would allow us to reuse several of the aforementioned modernized
-components in both the existing Console and the new Terminal. Further, we
-realized that this would allow us to build much of the Terminal's core itself as
-a reusable UI control that others can incorporate into their own applications.
-
-The result of this work is contained within this repo and delivered as the
-Windows Terminal application you can download from the Microsoft Store, or
-[directly from this repo's
-releases](https://github.com/microsoft/terminal/releases).
-
----
-
-## Resources
-
-For more information about Windows Terminal, you may find some of these
-resources useful and interesting:
-
-* [Command-Line Blog](https://devblogs.microsoft.com/commandline)
-* [Command-Line Backgrounder Blog
-  Series](https://devblogs.microsoft.com/commandline/windows-command-line-backgrounder/)
-* Windows Terminal Launch: [Terminal "Sizzle
-  Video"](https://www.youtube.com/watch?v=8gw0rXPMMPE&list=PLEHMQNlPj-Jzh9DkNpqipDGCZZuOwrQwR&index=2&t=0s)
-* Windows Terminal Launch: [Build 2019
-  Session](https://www.youtube.com/watch?v=KMudkRcwjCw)
-* Run As Radio: [Show 645 - Windows Terminal with Richard
-  Turner](https://www.runasradio.com/Shows/Show/645)
-* Azure Devops Podcast: [Episode 54 - Kayla Cinnamon and Rich Turner on DevOps
-  on the Windows
-  Terminal](http://azuredevopspodcast.clear-measure.com/kayla-cinnamon-and-rich-turner-on-devops-on-the-windows-terminal-team-episode-54)
-* Microsoft Ignite 2019 Session: [The Modern Windows Command Line: Windows
-  Terminal -
-  BRK3321](https://myignite.techcommunity.microsoft.com/sessions/81329?source=sessions)
-
----
-
-## FAQ
-
-### I built and ran the new Terminal, but it looks just like the old console
-
-Cause: You're launching the incorrect solution in Visual Studio.
-
-Solution: Make sure you're building & deploying the `CascadiaPackage` project in
-Visual Studio.
-
-> [!NOTE]
-> `OpenConsole.exe` is just a locally-built `conhost.exe`, the classic
-> Windows Console that hosts Windows' command-line infrastructure. OpenConsole
-> is used by Windows Terminal to connect to and communicate with command-line
-> applications (via
-> [ConPty](https://devblogs.microsoft.com/commandline/windows-command-line-introducing-the-windows-pseudo-console-conpty/)).
-
----
-
-## Documentation
-
-All project documentation is located at [aka.ms/terminal-docs](https://aka.ms/terminal-docs). If you would like
-to contribute to the documentation, please submit a pull request on the [Windows
-Terminal Documentation repo](https://github.com/MicrosoftDocs/terminal).
-
----
-
-## Contributing
-
-We are excited to work alongside you, our amazing community, to build and
-enhance Windows Terminal\!
-
-***BEFORE you start work on a feature/fix***, please read & follow our
-[Contributor's
-Guide](./CONTRIBUTING.md) to
-help avoid any wasted or duplicate effort.
-
-## Communicating with the Team
-
-The easiest way to communicate with the team is via GitHub issues.
-
-Please file new issues, feature requests and suggestions, but **DO search for
-similar open/closed preexisting issues before creating a new issue.**
-
-If you would like to ask a question that you feel doesn't warrant an issue
-(yet), please reach out to us via Twitter:
-
-* Christopher Nguyen, Product Manager:
-  [@nguyen_dows](https://twitter.com/nguyen_dows)
-* Dustin Howett, Engineering Lead: [@dhowett](https://twitter.com/DHowett)
-* Mike Griese, Senior Developer: [@zadjii@mastodon.social](https://mastodon.social/@zadjii)
-* Carlos Zamora, Developer: [@cazamor_msft](https://twitter.com/cazamor_msft)
-* Pankaj Bhojwani, Developer
-* Leonard Hecker, Developer: [@LeonardHecker](https://twitter.com/LeonardHecker)
-
-## Developer Guidance
-
-## Prerequisites
-
-You can configure your environment to build Terminal in one of two ways:
-
-### Using WinGet configuration file
-
-After cloning the repository, you can use a [WinGet configuration file](https://learn.microsoft.com/en-us/windows/package-manager/configuration/#use-a-winget-configuration-file-to-configure-your-machine)
-to set up your environment. The [default configuration file](.config/configuration.winget) installs Visual Studio 2022 Community & rest of the required tools. There are two other variants of the configuration file available in the [.config](.config) directory for Enterprise & Professional editions of Visual Studio 2022. To run the default configuration file, you can either double-click the file from explorer or run the following command:
-
-```powershell
-winget configure .config\configuration.winget
-```
-
-### Manual configuration
-
-* You must be running Windows 10 2004 (build >= 10.0.19041.0) or later to run
-  Windows Terminal
-* You must [enable Developer Mode in the Windows Settings
-  app](https://docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development)
-  to locally install and run Windows Terminal
-* You must have [PowerShell 7 or later](https://github.com/PowerShell/PowerShell/releases/latest) installed
-* You must have the [Windows 11 (10.0.22621.0)
-  SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/)
-  installed
-* You must have at least [VS
-  2022](https://visualstudio.microsoft.com/downloads/) installed
-* You must install the following Workloads via the VS Installer. Note: Opening
-  the solution in VS 2022 will [prompt you to install missing components
-  automatically](https://devblogs.microsoft.com/setup/configure-visual-studio-across-your-organization-with-vsconfig/):
-  * Desktop Development with C++
-  * Universal Windows Platform Development
-  * **The following Individual Components**
-    * C++ (v143) Universal Windows Platform Tools
-* You must install the [.NET Framework Targeting Pack](https://docs.microsoft.com/dotnet/framework/install/guide-for-developers#to-install-the-net-framework-developer-pack-or-targeting-pack) to build test projects
-
-## Building the Code
-
-OpenConsole.slnx may be built from within Visual Studio or from the command-line
-using a set of convenience scripts & tools in the **/tools** directory:
-
-### Building in PowerShell
+**Build Commands:**
 
 ```powershell
 Import-Module .\tools\OpenConsole.psm1
@@ -386,55 +148,14 @@ Set-MsBuildDevEnvironment
 Invoke-OpenConsoleBuild
 ```
 
-### Building in Cmd
+**Running & Debugging:**
 
-```shell
-.\tools\razzle.cmd
-bcz
-```
+To debug the Windows Terminal in VS, right click on `CascadiaPackage` (in the Solution Explorer) and go to properties. In the Debug menu, change "Application process" and "Background task process" to "Native Only".
 
-## Running & Debugging
+You should then be able to build & debug the Terminal project by hitting F5. Make sure to select either the "x64" or the "x86" platform.
 
-To debug the Windows Terminal in VS, right click on `CascadiaPackage` (in the
-Solution Explorer) and go to properties. In the Debug menu, change "Application
-process" and "Background task process" to "Native Only".
+## Contributing
 
-You should then be able to build & debug the Terminal project by hitting
-<kbd>F5</kbd>. Make sure to select either the "x64" or the "x86" platform - the
-Terminal doesn't build for "Any Cpu" (because the Terminal is a C++ application,
-not a C# one).
+We are excited to work alongside you, our amazing community, to build and enhance Windows Terminal!
 
-> 👉 You will _not_ be able to launch the Terminal directly by running the
-> WindowsTerminal.exe. For more details on why, see
-> [#926](https://github.com/microsoft/terminal/issues/926),
-> [#4043](https://github.com/microsoft/terminal/issues/4043)
-
-### Coding Guidance
-
-Please review these brief docs below about our coding practices.
-
-> 👉 If you find something missing from these docs, feel free to contribute to
-> any of our documentation files anywhere in the repository (or write some new
-> ones!)
-
-This is a work in progress as we learn what we'll need to provide people in
-order to be effective contributors to our project.
-
-* [Coding Style](./doc/STYLE.md)
-* [Code Organization](./doc/ORGANIZATION.md)
-* [Exceptions in our legacy codebase](./doc/EXCEPTIONS.md)
-* [Helpful smart pointers and macros for interfacing with Windows in WIL](./doc/WIL.md)
-
----
-
-## Code of Conduct
-
-This project has adopted the [Microsoft Open Source Code of
-Conduct][conduct-code]. For more information see the [Code of Conduct
-FAQ][conduct-FAQ] or contact [opencode@microsoft.com][conduct-email] with any
-additional questions or comments.
-
-[conduct-code]: https://opensource.microsoft.com/codeofconduct/
-[conduct-FAQ]: https://opensource.microsoft.com/codeofconduct/faq/
-[conduct-email]: mailto:opencode@microsoft.com
-[store-install-link]: https://aka.ms/terminal
+***BEFORE you start work on a feature/fix***, please read & follow our [Contributor's Guide](CONTRIBUTING.md) to help avoid any wasted or duplicate effort.
