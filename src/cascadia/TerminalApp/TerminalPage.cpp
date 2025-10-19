@@ -4,6 +4,7 @@
 
 #include "pch.h"
 #include "TerminalPage.h"
+#include "../../types/simd.h"
 
 #include <TerminalCore/ControlKeyStates.hpp>
 #include <TerminalThemeHelpers.h>
@@ -318,6 +319,7 @@ namespace winrt::TerminalApp::implementation
 
     void TerminalPage::Create()
     {
+        simd::Initialize();
         // Hookup the key bindings
         _HookupKeyBindings(_settings.ActionMap());
 

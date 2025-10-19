@@ -27,6 +27,15 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemDefinitionGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='UltraPerformance'
+>    <Import Project="$(SolutionDir)src\common.build.ultraperformance.props" />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='UltraPerformance'
+>    <Import Project="$(SolutionDir)src\common.build.ultraperformance.props" />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='UltraPerformance'
+>    <Import Project="$(SolutionDir)src\common.build.ultraperformance.props" />
+  </PropertyGroup>
   <Import Project="$(SolutionDir)src\common.build.post.props" />
   <Import Project="$(SolutionDir)src\common.nugetversions.targets" />
 </Project>

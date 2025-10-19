@@ -1,4 +1,7 @@
-DIRS= \
-     base \
-     gdi \
-     wddmcon \
+DIRS=
+    base
+    gdi
+    atlas
+    d3d12
+    uia
+    winui

@@ -4,6 +4,9 @@
     <BuildType Name="Debug" />
     <BuildType Name="Fuzzing" />
     <BuildType Name="Release" />
+    <BuildType Name="UltraPerformance" />
+    <BuildType Name="UltraPerformance" />
+    <BuildType Name="UltraPerformance" />
     <Platform Name="Any CPU" />
     <Platform Name="ARM64" />
     <Platform Name="x64" />
@@ -317,6 +320,10 @@
   </Folder>
   <Folder Name="/Shared/Rendering/">
     <Project Path="src/renderer/atlas/atlas.vcxproj" Id="8222900c-8b6c-452a-91ac-be95db04b95f">
+      <Platform Solution="*|Any CPU" Project="Win32" />
+      <Build Solution="*|Any CPU" Project="false" />
+    </Project>
+    <Project Path="src/renderer/atlas-d3d12/atlas-d3d12.vcxproj" Id="{45209C5A-D0F2-4AF8-AA3D-26B1ADDE2A44}">
       <Platform Solution="*|Any CPU" Project="Win32" />
       <Build Solution="*|Any CPU" Project="false" />
     </Project>
